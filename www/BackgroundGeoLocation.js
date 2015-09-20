@@ -20,9 +20,10 @@ module.exports = {
             desiredAccuracy     = (config.desiredAccuracy >= 0) ? config.desiredAccuracy : 100,     // meters
             debug               = config.debug || false,
             notificationTitle   = config.notificationTitle || "Background tracking",
-            notificationText    = config.notificationText || "ENABLED";
-            activityType        = config.activityType || "OTHER";
-            stopOnTerminate     = config.stopOnTerminate || false;
+            notificationText    = config.notificationText || "ENABLED",
+            activityType        = config.activityType || "OTHER",
+            stopOnTerminate     = config.stopOnTerminate || false,
+            bluetoothMode       = config.bluetoothMode || false;
 
         exec(success || function() {},
              failure || function() {},

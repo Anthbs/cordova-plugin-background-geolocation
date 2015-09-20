@@ -34,6 +34,7 @@ public class BackgroundGpsPlugin extends CordovaPlugin {
     private String notificationTitle = "Background tracking";
     private String notificationText = "ENABLED";
     private String stopOnTerminate = "false";
+    private String bluetoothMode = "false";
 
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
         Activity activity = this.cordova.getActivity();
@@ -58,6 +59,7 @@ public class BackgroundGpsPlugin extends CordovaPlugin {
                 updateServiceIntent.putExtra("notificationTitle", notificationTitle);
                 updateServiceIntent.putExtra("notificationText", notificationText);
                 updateServiceIntent.putExtra("stopOnTerminate", stopOnTerminate);
+                updateServiceIntent.putExtra("bluetoothMode", bluetoothMode);
 
                 activity.startService(updateServiceIntent);
                 isEnabled = true;
@@ -84,6 +86,7 @@ public class BackgroundGpsPlugin extends CordovaPlugin {
                 this.notificationTitle = data.getString(8);
                 this.notificationText = data.getString(9);
                 this.stopOnTerminate = data.getString(11);
+                this.bluetoothMode = data.getString(12);
             } catch (JSONException e) {
                 callbackContext.error("authToken/url required as parameters: " + e.getMessage());
             }
