@@ -14,7 +14,7 @@
     </engines>
 
     <dependency id="cordova-plugin-geolocation" url="https://github.com/apache/cordova-plugin-geolocation.git" />
-    <dependency id="cordova-plugin-dialogs" />
+    <dependency id="cordova-plugin-dialogs" url="https://github.com/apache/cordova-plugin-dialogs.git" />
 
     <js-module src="www/BackgroundGeoLocation.js" name="BackgroundGeoLocation">
         <clobbers target="window.BackgroundGeolocation" />
