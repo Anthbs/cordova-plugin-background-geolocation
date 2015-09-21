@@ -29,7 +29,7 @@ module.exports = {
              failure || function() {},
              'BackgroundGeoLocation',
              'configure',
-             [params, headers, url, stationaryRadius, distanceFilter, locationTimeout, desiredAccuracy, debug, notificationTitle, notificationText, activityType, stopOnTerminate]
+             [params, headers, url, stationaryRadius, distanceFilter, locationTimeout, desiredAccuracy, debug, notificationTitle, notificationText, activityType, stopOnTerminate, bluetoothMode]
         );
     },
     start: function(success, failure, config) {
