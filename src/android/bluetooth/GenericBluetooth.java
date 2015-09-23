@@ -23,7 +23,7 @@ public class GenericBluetooth extends Service {
     private static final String LOG_TAG = "BluetoothSerial";
     private final IBinder mBinder = new LocalBinder();
     private BluetoothAdapter mBluetoothAdapter;
-    public ArrayList<BluetoothDevice> devices = new ArrayList<>();
+    public ArrayList<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
 
     public GenericBluetooth() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

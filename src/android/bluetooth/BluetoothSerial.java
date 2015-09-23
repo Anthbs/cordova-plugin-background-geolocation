@@ -17,7 +17,7 @@ public class BluetoothSerial extends GenericBluetooth {
     private static final String LOG_TAG = "BluetoothSerial";
 
     public ArrayList<AGFBluetoothDevice> getAGFDevices() {
-        ArrayList<AGFBluetoothDevice> agfDevices = new ArrayList<>();
+        ArrayList<AGFBluetoothDevice> agfDevices = new ArrayList<AGFBluetoothDevice>();
         try {
             Context context = getApplicationContext();
             for(BluetoothDevice device : this.devices) {

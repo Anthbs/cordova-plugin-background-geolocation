@@ -49,14 +49,14 @@ module.exports = {
     stop: function(success, failure, config) {
         exec(success || function() {},
             failure || function() {},
-            'BluetoothGeoLocation',
+            'BackgroundGeoLocation',
             'stop',
             []);
     },
     stopBT: function(success, failure, config) {
         exec(success || function() {},
             failure || function() {},
-            'BackgroundGeoLocation',
+            'BluetoothGeoLocation',
             'stopBT',
             []);
     },
