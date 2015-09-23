@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.util.Log;
-import agf.com.trackinglibrary.BluetoothSerial;
 
 public class BackgroundGpsPlugin extends CordovaPlugin {
     private static final String TAG = "BackgroundGpsPlugin";
@@ -19,12 +18,8 @@ public class BackgroundGpsPlugin extends CordovaPlugin {
     public static final String ACTION_STOP = "stop";
     public static final String ACTION_CONFIGURE = "configure";
     public static final String ACTION_SET_CONFIG = "setConfig";
-    public static final String ACTION_START_BLUETOOTH = "startBT";
-    public static final String ACTION_STOP_BLUETOOTH = "stopBT";
-    public static final String ACTION_CONNECT_BLUETOOTH = "connectBT";
 
     private Intent updateServiceIntent;
-    private Intent updateBTServiceIntent;
 
     private Boolean isEnabled = false;
 
@@ -41,23 +36,17 @@ public class BackgroundGpsPlugin extends CordovaPlugin {
     private String stopOnTerminate = "false";
     private String bluetoothMode = "false";
 
-    public PluginResult execute(String action, JSONArray data, String callbackId) {
+    public boolean execute(String action, JSONArray data, CallbackContext callbackContext) {
         Activity activity = this.cordova.getActivity();
-        PluginResult.Status status = PluginResult.Status.OK;
-        PluginResult progressResult = new PluginResult(PluginResult.Status.OK, "Interim 1");
-        String result = "";
         Boolean result = false;
         updateServiceIntent = new Intent(activity, LocationUpdateService.class);
-        updateBTServiceIntent = new Intent(activity, BluetoothSerial.class);
 
         if (ACTION_START.equalsIgnoreCase(action) && !isEnabled) {
             result = true;
             if (params == null || headers == null || url == null) {
                 callbackContext.error("Call configure before calling start");
             } else {
-                PluginResult progressResult = new PluginResult(PluginResult.Status.OK, "");
-                progressResult.setKeepCallback(true);
-                callbackContext.sendPluginResult(progressResult);
+                callbackContext.success();
                 updateServiceIntent.putExtra("url", url);
                 updateServiceIntent.putExtra("params", params);
                 updateServiceIntent.putExtra("headers", headers);
@@ -71,24 +60,15 @@ public class BackgroundGpsPlugin extends CordovaPlugin {
                 updateServiceIntent.putExtra("notificationText", notificationText);
                 updateServiceIntent.putExtra("stopOnTerminate", stopOnTerminate);
                 updateServiceIntent.putExtra("bluetoothMode", bluetoothMode);
-                if(bluetoothMode == "true" || bluetoothMode == true) {
-                    activity.startService(updateBTServiceIntent);
-                } else {
-                    activity.startService(updateServiceIntent);
-                }
+
+                activity.startService(updateServiceIntent);
                 isEnabled = true;
             }
         } else if (ACTION_STOP.equalsIgnoreCase(action)) {
             isEnabled = false;
             result = true;
-            if(bluetoothMode == "true" || bluetoothMode == true) {
-                activity.stopService(updateBTServiceIntent);
-            } else {
-                activity.stopService(updateServiceIntent);
-            }
-            PluginResult progressResult = new PluginResult(PluginResult.Status.OK, "");
-            progressResult.setKeepCallback(true);
-            callbackContext.sendPluginResult(progressResult);
+            activity.stopService(updateServiceIntent);
+            callbackContext.success();
         } else if (ACTION_CONFIGURE.equalsIgnoreCase(action)) {
             result = true;
             try {
