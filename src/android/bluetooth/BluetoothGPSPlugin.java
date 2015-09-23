@@ -54,25 +54,22 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         Activity activity = this.cordova.getActivity();
-        switch (action) {
-            case ACTION_START:
-                mService.connect("XGPS");
-                break;
-            case ACTION_STOP:
-                if(this.locationEventCallback != null) {
-                    this.locationEventCallback.success();
-                    this.locationEventCallback = null;
-                }
-                if (mBound) {
-                    activity.unbindService(mConnection);
-                    mBound = false;
-                }
-                break;
-            case ACTION_CONFIGURE:
-                this.locationEventCallback = callbackContext;
-                activity.registerReceiver(Location_Receiver, new IntentFilter("LocationBroadcast"));
-                activity.bindService(activity.getIntent(), mConnection, Context.BIND_AUTO_CREATE);
-                break;
+
+        if(ACTION_START.equals(action)) {
+            mService.connect("XGPS");
+        } else if(ACTION_STOP.equals(action)) {
+            if(this.locationEventCallback != null) {
+                this.locationEventCallback.success();
+                this.locationEventCallback = null;
+            }
+            if (mBound) {
+                activity.unbindService(mConnection);
+                mBound = false;
+            }
+        } else if(ACTION_CONFIGURE.equals(action)) {
+            this.locationEventCallback = callbackContext;
+            activity.registerReceiver(Location_Receiver, new IntentFilter("LocationBroadcast"));
+            activity.bindService(activity.getIntent(), mConnection, Context.BIND_AUTO_CREATE);
         }
 
         return true;

@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -48,17 +47,13 @@ public class GenericBluetooth extends Service {
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action) {
-                case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
-                    discoveryStarted();
-                    break;
-                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
-                    discoveryStopped();
-                    break;
-                case BluetoothDevice.ACTION_FOUND:
-                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    deviceFound(device);
-                    break;
+            if(BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
+                discoveryStarted();
+            } else if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                discoveryStopped();
+            } else if(BluetoothAdapter.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                deviceFound(device);
             }
         }
     };
