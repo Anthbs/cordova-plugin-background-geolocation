@@ -55,7 +55,7 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
             Log.d("BluetoothGPSPlugin", "Trying to send cordova location...");
             if (this.locationEventCallback != null && location != null) {
                 PluginResult result = new PluginResult(PluginResult.Status.OK, location.toJSONObject());
-                result.getKeepCallback();
+                result.setKeepCallback(true);
                 this.locationEventCallback.sendPluginResult(result);
                 Log.d("BluetoothGPSPlugin", "Sent cordova location...");
             }
