@@ -16,7 +16,6 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,10 +51,16 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
     };
 
     public void sendLocationEvent(NemaLocation location) {
-        Log.d("BluetoothGPSPlugin", "Trying to send cordova location...");
-        if(this.locationEventCallback != null) {
-            this.locationEventCallback.sendPluginResult(new PluginResult(PluginResult.Status.OK, location.toJSONObject()));
-            Log.d("BluetoothGPSPlugin", "Sent cordova location...");
+        try {
+            Log.d("BluetoothGPSPlugin", "Trying to send cordova location...");
+            if (this.locationEventCallback != null) {
+                PluginResult result = new PluginResult(PluginResult.Status.OK, location.toJSONObject());
+                result.getKeepCallback();
+                this.locationEventCallback.sendPluginResult(result);
+                Log.d("BluetoothGPSPlugin", "Sent cordova location...");
+            }
+        }catch (Exception e) {
+            Log.e("BluetoothGPSPlugin", e.getMessage());
         }
     }
 
