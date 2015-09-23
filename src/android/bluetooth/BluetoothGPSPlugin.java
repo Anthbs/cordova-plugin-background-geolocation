@@ -77,7 +77,7 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
             Log.d("BluetoothGPSPlugin", "Registering Location_Receiver :)");
             activity.registerReceiver(Location_Receiver, new IntentFilter("LocationBroadcast"));
             Log.d("BluetoothGPSPlugin", "Binding Service :)");
-            Intent intent = new Intent(activity.getApplicationContext(), BluetoothSerial.class);
+            Intent intent = new Intent(activity, BluetoothSerial.class);
             activity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             configureEventCallback = callbackContext;
         }
