@@ -51,7 +51,7 @@ public class GenericBluetooth extends Service {
                 discoveryStarted();
             } else if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 discoveryStopped();
-            } else if(BluetoothAdapter.ACTION_FOUND.equals(action)) {
+            } else if(BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 deviceFound(device);
             }
