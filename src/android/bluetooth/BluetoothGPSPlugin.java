@@ -53,7 +53,7 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
     public void sendLocationEvent(NemaLocation location) {
         try {
             Log.d("BluetoothGPSPlugin", "Trying to send cordova location...");
-            if (this.locationEventCallback != null) {
+            if (this.locationEventCallback != null && location != null) {
                 PluginResult result = new PluginResult(PluginResult.Status.OK, location.toJSONObject());
                 result.getKeepCallback();
                 this.locationEventCallback.sendPluginResult(result);
