@@ -26,9 +26,10 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
     private final String ACTION_START = "start";
     private final String ACTION_STOP = "stop";
     private final String ACTION_CONFIGURE = "configure";
-    BluetoothSerial mService;
+    public static BluetoothSerial mService;
     boolean mBound = false;
     public CallbackContext locationEventCallback = null;
+    public CallbackContext configureEventCallback = null;
 
     private BroadcastReceiver Location_Receiver = new BroadcastReceiver() {
         @Override
@@ -56,10 +57,11 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
         Activity activity = this.cordova.getActivity();
 
         if(ACTION_START.equals(action)) {
-            if(mService != null) {
-                mService.connect("XGPS");
+            if(BluetoothGPSPlugin.mService != null) {
+                this.locationEventCallback = callbackContext;
+                BluetoothGPSPlugin.mService.connect("XGPS");
             } else {
-                callbackContext.error("mService was undefined...");
+                callbackContext.error("BluetoothGPSPlugin.mService was undefined...");
             }
         } else if(ACTION_STOP.equals(action)) {
             if(this.locationEventCallback != null) {
@@ -70,10 +72,14 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
                 activity.unbindService(mConnection);
                 mBound = false;
             }
+            callbackContext.success();
         } else if(ACTION_CONFIGURE.equals(action)) {
-            this.locationEventCallback = callbackContext;
+            Log.d("BluetoothGPSPlugin", "Registering Location_Receiver :)");
             activity.registerReceiver(Location_Receiver, new IntentFilter("LocationBroadcast"));
-            activity.bindService(activity.getIntent(), mConnection, Context.BIND_AUTO_CREATE);
+            Log.d("BluetoothGPSPlugin", "Binding Service :)");
+            Intent intent = new Intent(activity.getApplicationContext(), BluetoothSerial.class);
+            activity.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            configureEventCallback = callbackContext;
         }
 
         return true;
@@ -84,12 +90,12 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
 
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            Log.d("BluetoothGPSPlugin", "Service Connected :)");
             GenericBluetooth.LocalBinder binder = (GenericBluetooth.LocalBinder) service;
-            mService = (BluetoothSerial) binder.getService();
+            BluetoothGPSPlugin.mService = (BluetoothSerial) binder.getService();
             mBound = true;
-            mService.scanForDevices();
-
+            BluetoothGPSPlugin.mService.scanForDevices();
+            configureEventCallback.success();
         }
 
         @Override
