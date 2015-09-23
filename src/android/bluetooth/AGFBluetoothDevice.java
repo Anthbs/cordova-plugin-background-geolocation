@@ -58,7 +58,7 @@ public class AGFBluetoothDevice extends Thread {
     public void broadcastLocationChange(NemaLocation location) {
         Intent intent = new Intent();
         intent.setAction("LocationBroadcast");
-        intent.putExtra("location", location);
+        intent.putExtra("location", location.toJSONObject().toString());
         context.sendBroadcast(intent);
     }
 

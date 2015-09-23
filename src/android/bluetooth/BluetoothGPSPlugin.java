@@ -37,7 +37,13 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
             Bundle extras = intent.getExtras();
             if (extras != null) {
                 if(extras.containsKey("location")){
-                    BluetoothGPSPlugin.this.sendLocationEvent((NemaLocation)extras.get("location"));
+                    String loc = (String)extras.get("location");
+                    try {
+                        JSONObject location = new JSONObject(loc);
+                        BluetoothGPSPlugin.this.sendLocationEvent(NemaLocation.fromJSONObject(location));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             BluetoothGPSPlugin.this.sendLocationEvent(null);

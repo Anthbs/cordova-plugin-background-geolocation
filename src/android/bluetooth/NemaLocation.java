@@ -32,6 +32,22 @@ public class NemaLocation extends Location {
         return jsonObject;
     }
 
+    public static NemaLocation fromJSONObject(JSONObject obj) {
+        NemaLocation loc = new NemaLocation();
+        try {
+            loc.setLatitude(obj.getDouble("latitude"));
+            loc.setLongitude(obj.getDouble("longitude"));
+            loc.setSpeed(obj.getLong("speed"));
+            loc.setAccuracy(obj.getLong("accuracy"));
+            loc.setAltitude(obj.getDouble("altitude"));
+            loc.setBearing(obj.getLong("bearing"));
+            loc.setTime(obj.getLong("time"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return loc;
+    }
+
     @Override
     public String toString() {
         return  "Lat: " + this.getLatitude() +
@@ -42,4 +58,6 @@ public class NemaLocation extends Location {
                 " Bearing: " + this.getBearing() +
                 " Time: " + this.getTime();
     }
+
+
 }
