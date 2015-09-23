@@ -56,7 +56,11 @@ public class BluetoothGPSPlugin extends CordovaPlugin {
         Activity activity = this.cordova.getActivity();
 
         if(ACTION_START.equals(action)) {
-            mService.connect("XGPS");
+            if(mService != null) {
+                mService.connect("XGPS");
+            } else {
+                callbackContext.error("mService was undefined...");
+            }
         } else if(ACTION_STOP.equals(action)) {
             if(this.locationEventCallback != null) {
                 this.locationEventCallback.success();
