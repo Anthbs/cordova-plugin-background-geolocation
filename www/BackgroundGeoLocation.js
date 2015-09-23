@@ -39,11 +39,32 @@ module.exports = {
              'start',
              []);
     },
+    startBT: function(success, failure, config) {
+        exec(success || function() {},
+             failure || function() {},
+             'BluetoothGeoLocation',
+             'start',
+             []);
+    },
     stop: function(success, failure, config) {
         exec(success || function() {},
             failure || function() {},
-            'BackgroundGeoLocation',
+            'BluetoothGeoLocation',
             'stop',
+            []);
+    },
+    stopBT: function(success, failure, config) {
+        exec(success || function() {},
+            failure || function() {},
+            'BackgroundGeoLocation',
+            'stopBT',
+            []);
+    },
+    configureBT: function(success, failure, config) {
+        exec(success || function() {},
+            failure || function() {},
+            'BluetoothGeoLocation',
+            'configure',
             []);
     },
     finish: function(success, failure) {

@@ -29,11 +29,20 @@
         <source-file src="src/android/data/LocationDAO.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data" />
         <source-file src="src/android/data/sqlite/LocationOpenHelper.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data/sqlite" />
         <source-file src="src/android/data/sqlite/SQLiteLocationDAO.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/data/sqlite" />
+        <source-file src="src/android/bluetooth/AGFBluetoothDevice.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/BluetoothGPSPlugin.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/BluetoothSerial.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/GenericBluetooth.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/NemaLocation.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/Nmea.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/NmeaEvent.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
+        <source-file src="src/android/bluetooth/NmeaEventListener.java" target-dir="src/com/tenforwardconsulting/cordova/bgloc/bluetooth" />
 
         <source-file src="src/android/notification.png" target-dir="res/drawable" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service android:name="com.tenforwardconsulting.cordova.bgloc.LocationUpdateService" android:enabled="true" android:process=":remote" />
+            <service android:name="agf.com.trackinglibrary.BluetoothSerial" android:enabled="true" android:process=":remote" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
@@ -43,10 +52,17 @@
             <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.WAKE_LOCK" />
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
         </config-file>   
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="BackgroundGeoLocation">
                 <param name="android-package" value="com.tenforwardconsulting.cordova.bgloc.BackgroundGpsPlugin"/>
+            </feature>
+            <feature name="BluetoothGeoLocation">
+                <param name="android-package" value="agf.com.trackinglibrary.BluetoothGPSPlugin"/>
             </feature>
         </config-file> 
      </platform>          
